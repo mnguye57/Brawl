@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/FBRD/!svn/ver/425/trunk/Brawl/src/brawl/model/enums
+END
+BrawlCharacter.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/FBRD/!svn/ver/344/trunk/Brawl/src/brawl/model/enums/BrawlCharacter.java
+END
+PlayerID.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/FBRD/!svn/ver/425/trunk/Brawl/src/brawl/model/enums/PlayerID.java
+END
+CardType.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/FBRD/!svn/ver/344/trunk/Brawl/src/brawl/model/enums/CardType.java
+END
+Color.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/FBRD/!svn/ver/344/trunk/Brawl/src/brawl/model/enums/Color.java
+END
+GameMode.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/FBRD/!svn/ver/344/trunk/Brawl/src/brawl/model/enums/GameMode.java
+END

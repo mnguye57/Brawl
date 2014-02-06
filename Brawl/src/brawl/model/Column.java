@@ -1,0 +1,218 @@
+package brawl.model;
+
+import brawl.model.enums.CardType;
+import brawl.model.enums.Color;
+import brawl.model.enums.PlayerID;
+import brawl.utils.MoveValidator;
+import java.util.Stack;
+
+/**
+ * The Column class represents a container for all of the Bases and Cards
+ * in the game. A Column decides if a Base is frozen, as well as keeps score and
+ * handle tight card stacking.
+ *
+ * @author FBRD-Megan Arnez
+ * @version 1.0
+ */
+public class Column
+{
+    /**
+     * Represents a base that is in play in a particular column instance.
+     */
+    private Base base;
+
+    /**
+     * Track the stack of cards on each side of the base (corresponding to
+     * different players).
+     */
+    private Stack<Card> p1Side, p2Side;
+    /**
+     * Track the effective quantity of hits on each side of the base (taking
+     * into account hit-2s).
+     */
+    private int p1Score, p2Score;
+    /**
+     * Flag to represent whether or not a base has been frozen (and if it can
+     * therefore be played on).
+     */
+    private boolean frozen;
+
+    /**
+     * Constructs a Column with one Base in it.
+     * @param base A base card containing information about its owner
+     */
+    public Column(Base base)
+    {
+        this.base = base;
+        frozen = false;
+        p1Score = 0;
+        p2Score = 0;
+        p1Side = new Stack<Card>();
+        p2Side = new Stack<Card>();
+    }
+
+    /**
+     * Retrieves the top card on Base given a certain side. This can be used
+     * to determine whether a move is valid.
+     * @param side spot on a Base that the top card will be retrieved from.
+     * @return The Card on the top of the Base on the specified side.
+     */
+    public Card peekTopCard(PlayerID side)
+    {
+        // RETURN the Card on side of the Base that was specified.
+        if (side == PlayerID.PLAYER1)
+        {
+            // DEFECT 384: Column was returning null instead of a base
+            if (p1Side.isEmpty())
+            {
+                return new Card(Color.COLORLESS, CardType.BASE);
+            }
+            return p1Side.peek();
+        }
+        else
+        {
+            if (p2Side.isEmpty())
+            {
+                return new Card(Color.COLORLESS, CardType.BASE);
+            }
+            return p2Side.peek();
+        }
+    }
+
+    /**
+     * Adds a Card to the Column. Tight Card Stacking is done
+     * if there is overflow.
+     *
+     * @param card card to be added to the Column.
+     * @param side which Player's side to add a Card to
+     * @pre base is not null
+     * @post one of the stacks (p1side or p2side) has the new Card pushed onto
+     * it
+     */
+    public void addCard(Card card, PlayerID side)
+    {
+        // If the base isn't frozen
+        if (!frozen)
+        {
+            if (side == PlayerID.PLAYER1)
+            {
+                // check if the move is valid
+                if (!p1Side.isEmpty() && MoveValidator.isValid(card, p1Side.peek()))
+                {
+                    p1Side.push(card);
+                    p1Score += card.getType().getValue();
+                }
+                // if there are no cards on the stack
+                else if (p1Side.isEmpty())
+                {
+                    p1Side.push(card);
+                    p1Score += card.getType().getValue();
+                }
+            }
+            else // for Player 2
+            {
+                // check if the move is valid
+                if (!p2Side.isEmpty() && MoveValidator.isValid(card, p2Side.peek()))
+                {
+                    p2Side.push(card);
+                    p2Score += card.getType().getValue();
+                }
+                // if there are no cards on the stack
+                else if (p2Side.isEmpty())
+                {
+                    p2Side.push(card);
+                    p2Score += card.getType().getValue();
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Sets the column to frozen and ignores all attempts to play Cards on it.
+     * @pre this column's frozen variable is set to false
+     * @post this column's frozen variable is set to true, which will prevent
+     * new cards from being added to its stacks
+     */
+    public void freeze()
+    {
+        // SET frozen equal to TRUE
+        frozen = true;
+    }
+
+    /**
+     * Determines if a base is frozen.
+     *
+     * @return  True if a base is frozen and False if not.
+     */
+    public boolean isFrozen()
+    {
+        return frozen;
+    }
+
+    /**
+     * Gets Player 1's score on this base
+     * @return Player 1's score on this base
+     */
+    public int getPlayer1Score()
+    {
+        return p1Score;
+    }
+
+    /**
+     * Gets Player 2's score on this base
+     * @return Player 2's score on this base
+     */
+    public int getPlayer2Score()
+    {
+        return p2Score;
+    }
+
+    /**
+     * Returns which player has the most points on a base.
+     * @return Returns the player with more points, or return Base owner if tied
+     */
+    public PlayerID getCurrentWinner()
+    {
+        // IF p1score is greater than p2score
+        if (p1Score > p2Score)
+        {
+            // RETURN PlayerID.PLAYER1
+            return PlayerID.PLAYER1;
+        }
+        // ELSE IF p2score is greater than p1score
+        else if (p1Score < p2Score)
+        {
+            // RETURN PlayerID.PLAYER2
+            return PlayerID.PLAYER2;
+        }
+        return base.getOwner();
+    }
+
+    /**
+     * Gets the base of the column
+     * @return The column's base card
+     */
+    public Base getBase()
+    {
+        return base;
+    }
+
+    /**
+     * Gets the stack on Player 1's side
+     * @return The stack on Player 1's side
+     */
+    public Stack<Card> getP1Stack()
+    {
+        return p1Side;
+    }
+
+    /**
+     * Gets the stack on Player 2's side
+     * @return The stack on Player 2's side
+     */
+    public Stack<Card> getP2Stack()
+    {
+        return p2Side;
+    }
+}

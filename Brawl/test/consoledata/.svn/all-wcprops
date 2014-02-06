@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/FBRD/!svn/ver/410/trunk/Brawl/test/consoledata
+END
+test1.in
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/FBRD/!svn/ver/328/trunk/Brawl/test/consoledata/test1.in
+END
+test2.in
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/FBRD/!svn/ver/328/trunk/Brawl/test/consoledata/test2.in
+END
+test3.1.in
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/FBRD/!svn/ver/410/trunk/Brawl/test/consoledata/test3.1.in
+END
+test3.2.in
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/FBRD/!svn/ver/410/trunk/Brawl/test/consoledata/test3.2.in
+END
+test5.1.in
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/FBRD/!svn/ver/328/trunk/Brawl/test/consoledata/test5.1.in
+END
+test5.2.in
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/FBRD/!svn/ver/328/trunk/Brawl/test/consoledata/test5.2.in
+END
+test5.3.in
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/FBRD/!svn/ver/334/trunk/Brawl/test/consoledata/test5.3.in
+END
+test5.4.in
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/FBRD/!svn/ver/328/trunk/Brawl/test/consoledata/test5.4.in
+END
+test5.5.in
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/FBRD/!svn/ver/334/trunk/Brawl/test/consoledata/test5.5.in
+END

@@ -1,0 +1,81 @@
+BRAWL: It's Garden Time!
+Please enter 'key' or 'sys'.
+You will be playing Tournament Mode
+Creating a deck Command
+Please enter the deck you'd like to create
+ OR 
+Creating a random deck:
+Please enter 'random'
+p1 please choose your deck type.
+p2 please choose your deck type.
+
+3-2-1 BRAWL!
+
+Key Binding Commands:
+Player1 Keys, Player 2 Keys
+q, i: Play opponent's side of left Base
+e, p: Play opponent's side of right base
+a, k: Play own side of left base
+d, ;: Play own side of right base
+z, ,: Draw card
+
+null's turn
+[--]       [--]       [--]
+[p1]       [--]       [p2]
+[--]       [--]       [--]
+Winning B1: p1     Winning B2: p2
+[DECK]     [--]     [DECK]     [--]
+
+null's turn
+[--]       [--]       [--]
+[p1]        [--]        [p2]
+[--]       [--]       [--]
+Winning B1: p1     Winning B2: p2
+[DECK]     [--]     [DECK]     [CBa]
+null's turn
+[--]       [--]       [--]
+[p2]        [p1]        [p2]
+[--]       [--]       [--]
+Winning B1: p2     Winning B2: p1     Winning B3: p2
+[DECK]     [--]     [DECK]     [--]
+null's turn
+[--]       [--]       [--]
+[p2]        [p1]        [p2]
+[--]       [--]       [--]
+Winning B1: p2     Winning B2: p1     Winning B3: p2
+[DECK]     [CFr]     [DECK]     [--]
+null's turn
+[--]       [--]       [--]
+[p2]        [p1]        [p2]
+[--]       [--]       [--]
+Winning B1: p2     Winning B2: p1     Winning B3: p2
+[DECK]     [--]     [DECK]     [--]
+null's turn
+[--]       [--]       [--]
+[p2]        [p1]        [p2]
+[--]       [--]       [--]
+Winning B1: p2     Winning B2: p1     Winning B3: p2
+[DECK]     [CFr]     [DECK]     [--]
+null's turn
+[--]       [--]       [--]
+[p2]        [p1]        [p2]
+[--]       [--]       [--]
+Winning B1: p2     Winning B2: p1     Winning B3: p2
+[DECK]     [--]     [DECK]     [--]
+null's turn
+[--]       [--]       [--]
+[p2]        [p1]        [p2]
+[--]       [--]       [--]
+Winning B1: p2     Winning B2: p1     Winning B3: p2
+[DECK]     [CFr]     [DECK]     [--]
+null's turn
+[--]       [--]       [--]
+[p2]        [p1]        [p2]
+[--]       [--]       [--]
+Winning B1: p2     Winning B2: p1     Winning B3: p2
+[DECK]     [--]     [DECK]     [--]
+Player 2 wins!
+Would you like to play again?
+Please enter 'Yes' or 'No'.
+Are you sure you want to quit?
+Please enter 'Yes' or 'No'.

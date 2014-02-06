@@ -1,0 +1,10 @@
+{
+  "Player1": [
+    { "key":"90", "side":"", "column":"-1" },
+    { "key":"81", "side":"p2", "column":"0" },
+  ],
+  "Player2": [
+    { "key":"73", "side":"", "column":"-1" },
+    { "key":"79", "side":"p2", "column":"0" },
+  ]
+}

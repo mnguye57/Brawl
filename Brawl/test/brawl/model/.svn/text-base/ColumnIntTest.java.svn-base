@@ -1,0 +1,109 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package brawl.model;
+
+import brawl.model.enums.CardType;
+import brawl.model.enums.Color;
+import brawl.model.enums.PlayerID;
+import junit.framework.TestCase;
+
+/**
+ *
+ * @author Ebele
+ */
+public class ColumnIntTest extends TestCase
+{
+    
+    public ColumnIntTest(String testName)
+    {
+        super(testName);
+    }
+
+    @Override
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+    }
+
+    @Override
+    protected void tearDown() throws Exception
+    {
+        super.tearDown();
+    }
+
+    // TODO add test methods here. The name must begin with 'test'. For example:
+    // public void testHello() {}
+
+    public void testPeekTopCard()
+    {
+        Base base = new Base(PlayerID.PLAYER2);
+        Column column = new Column(base);
+
+        Card card1 = new Card(Color.COLORLESS, CardType.BASE);
+        Card card2 = new Card(Color.COLORLESS, CardType.BASE);
+
+        assertEquals(card1, column.peekTopCard(PlayerID.PLAYER1));
+        assertEquals(card2, column.peekTopCard(PlayerID.PLAYER2));
+
+        Card card3 = new Card(Color.RED, CardType.HIT);
+        Card card4 = new Card(Color.RED, CardType.HIT2);
+
+        column.addCard(card3, PlayerID.PLAYER1);
+        column.addCard(card4, PlayerID.PLAYER1);
+        assertEquals(card4, column.peekTopCard(PlayerID.PLAYER1));
+
+        Card card5 = new Card(Color.GREEN, CardType.HIT);
+        Card card6 = new Card(Color.GREEN, CardType.HIT2);
+
+        column.addCard(card5, PlayerID.PLAYER2);
+        column.addCard(card6, PlayerID.PLAYER2);
+        assertEquals(card6, column.peekTopCard(PlayerID.PLAYER2));
+    }
+
+    public void testAddCard()
+    {
+        Base base = new Base(PlayerID.PLAYER1);
+        Column column = new Column(base);
+
+        // play blue Hit card on player 1's side
+        column.addCard(new Card(Color.BLUE, CardType.HIT), PlayerID.PLAYER1);
+        assertEquals(1, column.getPlayer1Score());
+
+        //play blue Hit-2 card on player 1's side
+        column.addCard(new Card(Color.BLUE, CardType.HIT2), PlayerID.PLAYER1);
+        assertEquals(3, column.getPlayer1Score());
+        assertEquals(PlayerID.PLAYER1, column.getCurrentWinner());
+        //player green Hit card on player 1's side
+        column.addCard(new Card(Color.GREEN, CardType.HIT), PlayerID.PLAYER1);
+        // MoveValidator should block this
+        assertEquals(3, column.getPlayer1Score());
+
+        //play green hit card on player 2's side
+        column.addCard(new Card(Color.GREEN, CardType.HIT), PlayerID.PLAYER2);
+        assertEquals(1, column.getPlayer2Score());
+
+        //play green hit-2 card on player 2's side
+        column.addCard(new Card(Color.GREEN, CardType.HIT2), PlayerID.PLAYER2);
+        assertEquals(3, column.getPlayer2Score());
+
+        //get current winner
+        assertEquals(PlayerID.PLAYER1, column.getCurrentWinner());
+
+        column.addCard(new Card(Color.GREEN, CardType.HIT), PlayerID.PLAYER2);
+        assertEquals(4, column.getPlayer2Score());
+        
+        assertEquals(PlayerID.PLAYER2, column.getCurrentWinner());
+    }
+
+    public void testGetSetIndex()
+    {
+        Base base = new Base(PlayerID.PLAYER1);
+        Column column = new Column(base);
+
+        column.setIndex(1);
+        assertEquals(1, column.getIndex());
+    }
+}

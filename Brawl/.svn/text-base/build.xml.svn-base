@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- You may freely edit this file. See commented blocks below for --><!-- some examples of how to customize the build. --><!-- (If you delete it and reopen the project it will be recreated.) --><!-- By default, only the Clean and Build commands use this build script. --><!-- Commands such as Run, Debug, and Test only use this build script if --><!-- the Compile on Save feature is turned off for the project. --><!-- You can turn off the Compile on Save (or Deploy on Save) setting --><!-- in the project's Project Properties dialog box.--><project name="BrawlMain" default="default" basedir=".">
+    <description>Builds, tests, and runs the project BrawlMain.</description>
+    <import file="nbproject/build-impl.xml"/>
+    <!--
+
+    There exist several targets which are by default empty and which can be 
+    used for execution of your tasks. These targets are usually executed 
+    before and after some main targets. They are: 
+
+      -pre-init:                 called before initialization of project properties
+      -post-init:                called after initialization of project properties
+      -pre-compile:              called before javac compilation
+      -post-compile:             called after javac compilation
+      -pre-compile-single:       called before javac compilation of single file
+      -post-compile-single:      called after javac compilation of single file
+      -pre-compile-test:         called before javac compilation of JUnit tests
+      -post-compile-test:        called after javac compilation of JUnit tests
+      -pre-compile-test-single:  called before javac compilation of single JUnit test
+      -post-compile-test-single: called after javac compilation of single JUunit test
+      -pre-jar:                  called before JAR building
+      -post-jar:                 called after JAR building
+      -post-clean:               called after cleaning build products
+
+    (Targets beginning with '-' are not intended to be called on their own.)
+
+    Example of inserting an obfuscator after compilation could look like this:
+
+        <target name="-post-compile">
+            <obfuscate>
+                <fileset dir="${build.classes.dir}"/>
+            </obfuscate>
+        </target>
+
+    For list of available properties check the imported 
+    nbproject/build-impl.xml file. 
+
+
+    Another way to customize the build is by overriding existing main targets.
+    The targets of interest are: 
+
+      -init-macrodef-javac:     defines macro for javac compilation
+      -init-macrodef-junit:     defines macro for junit execution
+      -init-macrodef-debug:     defines macro for class debugging
+      -init-macrodef-java:      defines macro for class execution
+      -do-jar-with-manifest:    JAR building (if you are using a manifest)
+      -do-jar-without-manifest: JAR building (if you are not using a manifest)
+      run:                      execution of project 
+      -javadoc-build:           Javadoc generation
+      test-report:              JUnit report generation
+
+    An example of overriding the target for project execution could look like this:
+
+        <target name="run" depends="BrawlMain-impl.jar">
+            <exec dir="bin" executable="launcher.exe">
+                <arg file="${dist.jar}"/>
+            </exec>
+        </target>
+
+    Notice that the overridden target depends on the jar target and not only on 
+    the compile target as the regular run target does. Again, for a list of available 
+    properties which you can use, check the target you are overriding in the
+    nbproject/build-impl.xml file. 
+
+    -->
+
+    <!-- pre-init target to set properties the script will use -->
+<target name="-pre-init">
+    <!-- Create a timestamp for Ant to use in javadoc title -->
+    <tstamp/>
+    <!-- Create a property for javadoc special parameters -->
+    <property name="systemtest.dir" value="test"/>
+    <property name="diffresults" value="${systemtest.dir}/diffresults.txt"/>
+    <property name="error.log" value="${systemtest.dir}/errorlog.txt"/>
+    <property name="manualtest.dir" value="test/brawl"/>
+    <property name="diffresults2" value="${manualtest.dir}/diffresults.txt"/>
+</target>
+
+
+<target name="-post-compile" depends="javap">
+    <echo>Extracting Skeletons</echo>
+</target>
+
+ <!--
+                =================
+                EXTRACT SKELETONS
+                =================
+     -->
+<target description="Extract class skeletons with javap" name="javap" depends="init">
+    <!-- Get list of class files in the build.classes directory -->
+    <fileset dir="${build.classes.dir}" id="classfiles">
+        <include name="*/*/*.class" />
+    </fileset>
+    <!-- remove the path name from each filename -->
+    <pathconvert property="classfilenames" refid="classfiles" pathsep=" " >
+        <map from="${basedir}/${build.classes.dir}/" to=""/>
+        <!-- remove the .class extension from each filename -->
+        <mapper>
+            <globmapper from="*.class" to="*" />
+        </mapper>
+    </pathconvert>
+    <!-- Use the javap command to list the class skeleton -->
+    <exec executable="javap" dir="${build.classes.dir}" output="${src.dir}/brawl/skeletons.out">
+       <arg line="${classfilenames}"/>
+    </exec>
+</target>
+
+    <!--
+            ==============
+            EXECUTABLE JAR
+            ==============
+ -->
+<target name="package" depends="jar">
+    <property name="store.jar.name" value="Brawl"/>
+
+    <!-- don't edit below this line -->
+
+    <property name="store.dir" value="store"/>
+    <property name="store.jar" value="${store.dir}/${store.jar.name}.jar"/>
+
+    <echo message="Packaging ${application.title} into a single JAR at ${store.jar}"/>
+
+    <delete dir="${store.dir}"/>
+    <mkdir dir="${store.dir}"/>
+
+    <jar destfile="${store.dir}/temp_final.jar" filesetmanifest="skip">
+        <zipgroupfileset dir="lib" includes="*.jar"/>
+        <zipgroupfileset dir="dist" includes="*.jar"/>
+
+        <manifest>
+            <attribute name="Main-Class" value="${main.class}"/>
+        </manifest>
+    </jar>
+
+    <zip destfile="${store.jar}">
+        <zipfileset src="${store.dir}/temp_final.jar"
+        excludes="META-INF/*.SF, META-INF/*.DSA, META-INF/*.RSA"/>
+    </zip>
+
+    <delete file="${store.dir}/temp_final.jar"/>
+</target>
+
+    <!--
+                =================
+                CHECKSTYLE SECTION
+                =================
+     -->
+<target description="Run checkstyle on src directory." name="checkstyle">
+<taskdef resource="checkstyletask.properties"
+         classpath="lib/308checks.jar;lib/checkstyle-all-4.4.jar"/>
+<checkstyle config="nbproject/308style.xml" failOnViolation="false">
+    <classpath>
+        <fileset dir="lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </classpath>
+            <!-- Specify includes and excludes -->
+            <fileset dir="src" includes="**/*.java"
+            excludes="**/AboutBox.java"/>
+</checkstyle>
+</target>
+
+<!--
+            =================
+            LOC counter  http://java.net/projects/loc-counter/
+            =================
+ -->
+<target description="Count Lines of Code in src directory." name="loc">
+    <!-- Get list of only .java files in the src directory -->
+    <fileset dir="src" id="javafiles">
+        <include name="**/*.java" />
+    </fileset>
+    <pathconvert property="filesToCount" refid="javafiles" pathsep=" " >
+        <map from="${basedir}" to=""/>
+    </pathconvert>
+    <!-- Invoke the line counter on the desired files, ignoring comments -->
+    <java classname="textui.LOC">
+        <arg line="-n -p ${basedir} ${filesToCount} " />
+        <classpath>
+            <pathelement location="lib/LOC.jar"/>
+        </classpath>
+    </java>
+</target>
+
+<target name="daily-build">
+    <tstamp>
+        <format property="time" pattern="MM/dd/yy hh:mm" locale="en"/>
+    </tstamp>
+    <echo message="Daily build ${time}:"/>
+    <antcall target="clean"/>
+    <antcall target="package"/>
+    <antcall target="loc"/>
+    <antcall target="checkstyle"/>
+    <echo message="Daily build complete."/>
+</target>
+
+<!--
+                 =================
+                 MANUAL CONSOLE TESTS SECTION
+                 =================
+-->
+<target name="contest" depends="init,clean,compile,jar" description="Run console-based manual tests.">
+    <echo message="running manualtest1"/>
+    <!-- Execute the console version of the app with test data -->
+    <java classname="${main.class}"
+        classpath="${dist.jar}"
+        fork="true"
+        input="${manualtest.dir}/consoleManualTests/test9.2.in"
+        output="${manualtest.dir}/consoleManualTests/results/test9.2.out"
+        error="${error.log}"
+        append="true">
+        <arg line="--console"/>
+    </java>
+</target>
+
+
+
+<!--
+	                =================
+	                SYSTEM TEST SECTION
+	                =================
+-->
+<target name="systest" depends="init,clean,compile,jar" description="Run console-based system tests.">
+
+    <echo message="-----SysTest-----"/>
+    <echo message=""/>
+
+    <delete file="${systemtest.dir}/diffresults.txt" />
+    <delete file="${systemtest.dir}/errorlog.txt" />
+    <delete file="${systemtest.dir}/results/test1.out" />
+    <delete file="${systemtest.dir}/results/test2.out" />
+    <delete file="${systemtest.dir}/results/test3.1.out" />
+    <delete file="${systemtest.dir}/results/test3.1.cat.out" />
+    <delete file="${systemtest.dir}/results/test3.1.sed.out" />
+    <delete file="${systemtest.dir}/results/test3.2.out" />
+    <delete file="${systemtest.dir}/results/test3.2.cat.out" />
+    <delete file="${systemtest.dir}/results/test3.2.sed.out" />
+    <delete file="${systemtest.dir}/results/test3.3.out" />
+    <delete file="${systemtest.dir}/results/test3.4.out" />
+    <delete file="${systemtest.dir}/results/test5.1.out" />
+    <delete file="${systemtest.dir}/results/test5.2.out" />
+    <delete file="${systemtest.dir}/results/test5.3.out" />
+    <delete file="${systemtest.dir}/results/test5.4.out" />
+    <delete file="${systemtest.dir}/results/test5.5.out" />
+
+
+    <echo message="running systest1"/>
+    <!-- Execute the console version of the app with test data -->
+    <java classname="${main.class}"
+        classpath="${dist.jar}"
+        fork="true"
+        input="${systemtest.dir}/consoledata/test1.in"
+        output="${systemtest.dir}/results/test1.out"
+        error="${error.log}"
+        append="true">
+        <arg line="--console"/>
+    </java>
+
+    <echo message="running systest2"/>
+    <java classname="${main.class}"
+        classpath="${dist.jar}"
+        fork="true"
+        input="${systemtest.dir}/consoledata/test2.in"
+        output="${systemtest.dir}/results/test2.out"
+        error="${error.log}"
+        append="true">
+        <arg line="--console"/>
+    </java>
+
+    <echo message="running systest3.1"/>
+    <java classname="${main.class}"
+        classpath="${dist.jar}"
+        fork="true"
+        input="${systemtest.dir}/consoledata/test3.1.in"
+        output="${systemtest.dir}/results/test3.1.out"
+        error="${error.log}"
+        append="true">
+        <arg line="--console"/>
+    </java>
+
+    <echo message="running systest3.2"/>
+    <java classname="${main.class}"
+        classpath="${dist.jar}"
+        fork="true"
+        input="${systemtest.dir}/consoledata/test3.2.in"
+        output="${systemtest.dir}/results/test3.2.out"
+        error="${error.log}"
+        append="true">
+        <arg line="--console"/>
+    </java>
+
+    <echo message="running systest5.1"/>
+    <java classname="${main.class}"
+        classpath="${dist.jar}"
+        fork="true"
+        input="${systemtest.dir}/consoledata/test5.1.in"
+        output="${systemtest.dir}/results/test5.1.out"
+        error="${error.log}"
+        append="true">
+        <arg line="--console"/>
+    </java>
+    
+    <echo message="running systest5.2"/>
+    <java classname="${main.class}"
+        classpath="${dist.jar}"
+        fork="true"
+        input="${systemtest.dir}/consoledata/test5.2.in"
+        output="${systemtest.dir}/results/test5.2.out"
+        error="${error.log}"
+        append="true">
+        <arg line="--console"/>
+    </java>
+
+   <echo message="running systest5.3"/>
+    <java classname="${main.class}"
+        classpath="${dist.jar}"
+        fork="true"
+        input="${systemtest.dir}/consoledata/test5.3.in"
+        output="${systemtest.dir}/results/test5.3.out"
+        error="${error.log}"
+        append="true">
+        <arg line="--console"/>
+    </java>
+
+    <echo message="running systest5.4"/>
+    <java classname="${main.class}"
+        classpath="${dist.jar}"
+        fork="true"
+        input="${systemtest.dir}/consoledata/test5.4.in"
+        output="${systemtest.dir}/results/test5.4.out"
+        error="${error.log}"
+        append="true">
+        <arg line="--console"/>
+    </java>
+
+    <echo message="running systest5.5"/>
+    <java classname="${main.class}"
+        classpath="${dist.jar}"
+        fork="true"
+        input="${systemtest.dir}/consoledata/test5.5.in"
+        output="${systemtest.dir}/results/test5.5.out"
+        error="${error.log}"
+        append="true">
+        <arg line="--console"/>
+    </java>
+
+    <echo message=""/>
+    <echo message="Comparing results"/>
+    <echo message=""/>
+    <echo message="Comparing test 1"/>
+    <exec dir="${systemtest.dir}" executable="/usr/bin/diff" osfamily="unix"
+          output="${diffresults}" append="true">
+        <arg line="-y results/test1.out oracles/test1.txt"/>
+    </exec>
+
+    <echo message="Comparing test 2"/>
+    <exec dir="${systemtest.dir}" executable="/usr/bin/diff" osfamily="unix"
+          output="${diffresults}" append="true">
+        <arg line="-y results/test2.out oracles/test2.txt"/>
+    </exec>
+
+    <exec dir="${systemtest.dir}" executable="/bin/cat" osfamily="unix"
+          output="${systemtest.dir}/results/test3.1.cat.out" append="true">
+        <arg line="-n results/test3.1.out"/>
+    </exec>
+
+    <exec dir="${systemtest.dir}" executable="/bin/cat" osfamily="unix"
+          output="${systemtest.dir}/results/test3.2.cat.out" append="true">
+        <arg line="-n results/test3.2.out"/>
+    </exec>
+
+    <exec dir="${systemtest.dir}" executable="/bin/sed" osfamily="unix"
+          output="${systemtest.dir}/results/test3.1.sed.out" append="true">
+        <arg line="-n '220,249p' results/test3.1.cat.out"/>
+    </exec>
+
+    <exec dir="${systemtest.dir}" executable="/bin/sed" osfamily="unix"
+          output="${systemtest.dir}/results/test3.2.sed.out" append="true">
+        <arg line="-n '220,249p' results/test3.2.cat.out"/>
+    </exec>
+
+    <echo message="Comparing test 3.1 and 3.2 seds"/>
+    <exec dir="${systemtest.dir}" executable="/usr/bin/diff" osfamily="unix"
+          output="${diffresults}" append="true">
+        <arg line="-y results/test3.1.sed.out results/test3.2.sed.out"/>
+    </exec>
+
+    <echo message="Comparing test 5.1"/>
+    <exec dir="${systemtest.dir}" executable="/usr/bin/diff" osfamily="unix"
+          output="${diffresults}" append="true">
+        <arg line="-y results/test5.1.out oracles/test5.1.txt"/>
+    </exec>
+
+    <echo message="Comparing test 5.2"/>
+    <exec dir="${systemtest.dir}" executable="/usr/bin/diff" osfamily="unix"
+          output="${diffresults}" append="true">
+        <arg line="-y results/test5.2.out oracles/test5.2.txt"/>
+    </exec>
+
+    <echo message="Comparing test 5.3"/>
+    <exec dir="${systemtest.dir}" executable="/usr/bin/diff" osfamily="unix"
+          output="${diffresults}" append="true">
+        <arg line="-y results/test5.3.out oracles/test5.3.txt"/>
+    </exec>
+
+    <echo message="Comparing test 5.4"/>
+    <exec dir="${systemtest.dir}" executable="/usr/bin/diff" osfamily="unix"
+          output="${diffresults}" append="true">
+        <arg line="-y results/test5.4.out oracles/test5.4.txt"/>
+    </exec>
+
+    <echo message="Comparing test 5.5"/>
+    <exec dir="${systemtest.dir}" executable="/usr/bin/diff" osfamily="unix"
+          output="${diffresults}" append="true">
+        <arg line="-y results/test5.5.out oracles/test5.5.txt"/>
+    </exec>
+
+    <echo message="Comparing test 3.1 and 3.2 outputs"/>
+    <echo message="Result: 1 expected"/>
+    <exec dir="${systemtest.dir}" executable="/usr/bin/diff" osfamily="unix"
+          output="${diffresults}" append="true">
+        <arg line="-y results/test3.1.out results/test3.2.out"/>
+    </exec>
+
+</target>
+
+
+</project>

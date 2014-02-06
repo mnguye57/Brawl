@@ -1,0 +1,22 @@
+{
+    "Player1": [
+      { "key":"88", "side":"", "column":"-2" },
+      { "key":"90", "side":"", "column":"-1" },
+      { "key":"81", "side":"p2", "column":"0" },
+      { "key":"87", "side":"p2", "column":"1" },
+      { "key":"69", "side":"p2", "column":"2" },
+      { "key":"65", "side":"p1", "column":"0" },
+      { "key":"83", "side":"p1", "column":"1" },
+      { "key":"68", "side":"p1", "column":"2" }
+    ],
+    "Player2": [
+      { "key":"46", "side":"", "column":"-2" },
+      { "key":"44", "side":"", "column":"-1" },
+      { "key":"73", "side":"p1", "column":"2" },
+      { "key":"79", "side":"p1", "column":"1" },
+      { "key":"80", "side":"p1", "column":"0" },
+      { "key":"75", "side":"p2", "column":"2" },
+      { "key":"76", "side":"p2", "column":"1" },
+      { "key":"59", "side":"p2", "column":"0" }
+    ]
+}

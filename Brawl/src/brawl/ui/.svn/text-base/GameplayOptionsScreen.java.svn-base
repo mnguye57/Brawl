@@ -1,0 +1,105 @@
+package brawl.ui;
+
+import brawl.GameController;
+import java.awt.Font;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSlider;
+
+/**
+ * A GameplayOptionsScreen represents a screen that allows the user to
+ * customize visual and audible settings for the Brawl game.
+ *
+ * @author Minh Nguyen
+ */
+public class GameplayOptionsScreen extends JPanel
+{
+    private final static int FONT_FIFTY = 50, FONT_THIRTY = 30,
+    FONT_TWENTY = 20;
+
+    /**
+     * Constructs a GameplayOptionsScreen
+     * @param ctrl the controller for the screen
+     */
+    public GameplayOptionsScreen(GameController ctrl)
+    {
+        JLabel opt = new JLabel("Gameplay Options");
+        opt.setFont(new Font("Helvetica", Font.PLAIN, FONT_FIFTY));
+        opt.setAlignmentX(CENTER_ALIGNMENT);
+        add(opt);
+        JPanel overallPanel = new JPanel();
+        overallPanel.setLayout(new BoxLayout(overallPanel, BoxLayout.Y_AXIS));
+
+        JPanel topPanel = new JPanel();
+        JPanel secondPanel = new JPanel();
+        JPanel thirdPanel = new JPanel();
+        JPanel fourthPanel = new JPanel();
+        JPanel bottomPanel = new JPanel();
+
+        ButtonGroup aiLevels = new ButtonGroup();
+        JRadioButton aiEasy = new JRadioButton("Easy");
+        aiEasy.setFont(new Font("Helvetica", Font.PLAIN, FONT_TWENTY));
+        JRadioButton aiMedium = new JRadioButton("Medium");
+        aiMedium.setFont(new Font("Helvetica", Font.PLAIN, FONT_TWENTY));
+        JRadioButton aiHard = new JRadioButton("Hard");
+        aiHard.setFont(new Font("Helvetica", Font.PLAIN, FONT_TWENTY));
+
+        ButtonGroup animatOnOff = new ButtonGroup();
+        JRadioButton aniOn = new JRadioButton("On");
+        aniOn.setFont(new Font("Helvetica", Font.PLAIN, FONT_TWENTY));
+        JRadioButton aniOff = new JRadioButton("Off");
+        aniOff.setFont(new Font("Helvetica", Font.PLAIN, FONT_TWENTY));
+        animatOnOff.add(aniOn);
+        animatOnOff.add(aniOff);
+
+        JButton optionsButton = new JButton("Options");
+        optionsButton.setFont(new Font("Helvetica", Font.PLAIN, FONT_TWENTY));
+        optionsButton.addActionListener(ctrl);
+
+        //add a blank JPanel to space down the options buttons
+        overallPanel.add(new JPanel());
+
+        JLabel sfx = new JLabel("SFX");
+        sfx.setFont(new Font("Helvetica", Font.PLAIN, FONT_THIRTY));
+        JLabel music = new JLabel("Music");
+        music.setFont(new Font("Helvetica", Font.PLAIN, FONT_THIRTY));
+        JLabel animation = new JLabel("Animations");
+        animation.setFont(new Font("Helvetica", Font.PLAIN, FONT_THIRTY));
+        JLabel aiDifficult = new JLabel("AI Difficulty");
+        aiDifficult.setFont(new Font("Helvetica", Font.PLAIN, FONT_THIRTY));
+
+        overallPanel.add(topPanel);
+        topPanel.setAlignmentY(CENTER_ALIGNMENT);
+        overallPanel.add(secondPanel);
+        secondPanel.setAlignmentY(CENTER_ALIGNMENT);
+        overallPanel.add(thirdPanel);
+        thirdPanel.setAlignmentY(CENTER_ALIGNMENT);
+        overallPanel.add(fourthPanel);
+        fourthPanel.setAlignmentY(CENTER_ALIGNMENT);
+        overallPanel.add(bottomPanel);
+        bottomPanel.setAlignmentY(BOTTOM_ALIGNMENT);
+
+        topPanel.add(sfx);
+        topPanel.add(new JSlider());
+        secondPanel.add(music);
+        secondPanel.add(new JSlider());
+        thirdPanel.add(animation);
+        thirdPanel.add(aniOn);
+        thirdPanel.add(aniOff);
+        fourthPanel.add(aiDifficult);
+
+        aiLevels.add(aiEasy);
+        aiLevels.add(aiMedium);
+        aiLevels.add(aiHard);
+        fourthPanel.add(aiEasy);
+        fourthPanel.add(aiMedium);
+        fourthPanel.add(aiHard);
+        bottomPanel.add(optionsButton);
+
+        add(overallPanel);
+    }
+}

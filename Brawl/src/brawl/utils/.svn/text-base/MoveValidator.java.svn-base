@@ -1,0 +1,75 @@
+package brawl.utils;
+
+import brawl.model.Card;
+import static brawl.utils.MoveValidator.ValidityValue.*;
+
+/**
+ * The MoveValidator class represents a utility class containing static methods
+ * to validate card moves.
+ *
+ * @author FBRD-Paul Doyle
+ * @version 1.0
+ */
+public class MoveValidator
+{
+    /**
+     * Values to represent the validity of a move (invalid, valid, or depends on
+     * card colors)
+     */
+    enum ValidityValue
+    {
+        IM, VM, CC
+    }
+
+    /**
+     * Table representing which moves are valid, invalid, or only valid if
+     * the correct color
+     */
+    private static ValidityValue[][] validMoveTable;
+
+    /**Class initializer
+     * populates validMoveTable
+     */
+    static
+    {
+        validMoveTable = new ValidityValue[][]{
+                      /*  HIT    HIT2    BLOCK   PRESS   BASE */
+            /* HIT   */ { CC,    CC,     IM,     CC,     VM },
+            /* HIT2  */ { CC,    CC,     IM,     IM,     IM },
+            /* BLOCK */ { CC,    CC,     IM,     IM,     IM },
+            /* PRESS */ { IM,    IM,     VM,     IM,     IM },
+            /* BASE  */ { IM,    IM,     IM,     IM,     IM }
+        };
+    }
+    /**
+     * Validates a possible move by looking it up in the move table and
+     * checking color values if necessary.
+     *
+     * @param toPlay card to be played on top of another card
+     * @param onto existing card to be validated against
+     * @return whether or not the given move is valid
+     */
+    public static boolean isValid(Card toPlay, Card onto)
+    {
+        // Lookup in table at positions based on given cards
+        int playCard = toPlay.getType().ordinal();
+        int onCard = onto.getType().ordinal();
+        
+        if(validMoveTable[playCard][onCard] == IM)
+        {
+            return false;
+        }
+        if (validMoveTable[playCard][onCard] == VM)
+        {
+            return true;
+        }
+        if (validMoveTable[playCard][onCard] == CC)
+        {
+            if(toPlay.getColor().equals(onto.getColor()))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+}

@@ -1,0 +1,23 @@
+package brawl.ui;
+
+import brawl.GameController;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+/**
+ * A TrainingScreen represents the screen containing the training mode of
+ * the Brawl game.
+ *
+ * @author Minh Nguyen
+ */
+public class TrainingScreen extends JPanel
+{
+    /**
+     * Constructs a TrainingScreen
+     * @param ctrl the controller for the TrainingScreen
+     */
+    public TrainingScreen(GameController ctrl)
+    {
+        add(new JLabel("Training"));
+    }
+}

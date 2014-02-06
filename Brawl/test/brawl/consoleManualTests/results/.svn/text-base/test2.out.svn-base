@@ -1,0 +1,50 @@
+BRAWL: It's Garden Time!
+Please enter 'key' or 'sys'.
+You will be playing Training Mode
+Player 1: human or ai?
+Please enter 'human' or 'ai': Settings model isHuman(T/F): true
+Player 1 chose: human
+
+Player 2: human or ai?
+Please enter 'human' or 'ai': Settings model isHuman(T/F): false
+Player 2 chose: ai
+
+Player 1: Please choose a deck.
+Please choose the character's number.
+1: Humphrey
+2: Milton
+3: Beatrice
+4: Wilbur
+5: Gertrude
+6: Esther
+
+player 1 chose deck: BEATRICE
+
+Player 2: Please choose a deck.
+Please choose the character's number.
+1: Humphrey
+2: Milton
+3: Beatrice
+4: Wilbur
+5: Gertrude
+6: Esther
+
+Or you can go back to Player 1's Deck Selection Screen by pressing '0'
+player 2 chose: WILBUR
+
+3-2-1 BRAWL!
+
+Key Binding Commands:
+Player1 Keys, Player 2 Keys
+q, i: Play opponent's side of left Base
+e, p: Play opponent's side of right base
+a, k: Play own side of left base
+d, ;: Play own side of right base
+z, ,: Draw card
+p1's turn
+[--]       [--]       [--]
+[p1]       [--]       [p2]
+[--]       [--]       [--]
+Winning B1: p1     Winning B2: p2
+[DECK]     [--]     [DECK]     [--]
+

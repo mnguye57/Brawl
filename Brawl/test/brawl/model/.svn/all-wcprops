@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/FBRD/!svn/ver/423/trunk/Brawl/test/brawl/model
+END
+DeckIntTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/FBRD/!svn/ver/241/trunk/Brawl/test/brawl/model/DeckIntTest.java
+END
+AIIntTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/FBRD/!svn/ver/423/trunk/Brawl/test/brawl/model/AIIntTest.java
+END
+MoveTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/FBRD/!svn/ver/217/trunk/Brawl/test/brawl/model/MoveTest.java
+END
+ColumnIntTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/FBRD/!svn/ver/242/trunk/Brawl/test/brawl/model/ColumnIntTest.java
+END
+CardTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/FBRD/!svn/ver/345/trunk/Brawl/test/brawl/model/CardTest.java
+END
+AITest.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/FBRD/!svn/ver/423/trunk/Brawl/test/brawl/model/AITest.java
+END

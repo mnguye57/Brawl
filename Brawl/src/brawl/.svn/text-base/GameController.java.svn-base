@@ -1,0 +1,355 @@
+package brawl;
+
+import brawl.model.Move;
+import brawl.model.enums.BrawlCharacter;
+import brawl.model.enums.GameMode;
+import brawl.ui.GameView;
+import brawl.utils.KeyMapper;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+/**
+ * The GameController class is the controller in the MVC triad, and is
+ * responsible for handling user interaction and communication between
+ * the view and model.
+ *
+ * @author FBRD-Paul Doyle
+ * @version 1.0
+ */
+public class GameController extends KeyAdapter implements ActionListener
+{
+    /**
+     * A reference to the GameView object that a GameController interacts with.
+     */
+    private GameView view;
+    /**
+     * A reference to the SettingsModel object that a
+     * GameController interacts with.
+     */
+    private SettingsModel settingsModel;
+    /**
+     * A reference to the MatchModel object that a
+     * GameController interacts with.
+     */
+    private MatchModel matchModel;
+    /**
+     * Tracks whether or not gameplay is paused.
+
+    private boolean paused;
+    */
+    
+    /**
+     * Flag to determine whether or not the controller is waiting for a key
+     * press
+     */
+    private boolean bindKey;
+    /**
+     * Move object to be passed between input listeners when binding keys
+     */
+    private Move move;
+
+    /**
+     * Construct a GameController.  It still needs to be linked to a model
+     * and view to be useful.
+     */
+    public GameController()
+    {
+        bindKey = false;
+    }
+
+    /**
+     * Set the reference to the view.
+     *
+     * @param view GameView object that the controller communicates with.
+     */
+    public void setView(GameView view)
+    {
+        this.view = view;
+    }
+
+    /**
+     * Set the reference to the SettingsModel.
+     *
+     * @param model SettingsModel object that the controller extracts data from
+     */
+    public void setModel(SettingsModel model)
+    {
+        this.settingsModel = model;
+        view.setSettingsModel(model);
+    }
+
+    /**
+     * Pause gameplay - Do not respond to any gameplay inputs while in this
+     * state.
+     *
+     * @pre Gameplay is continuing in real time.
+     * @post Neither player is allowed to make a move until game is unpaused.
+     */
+    public void pause()
+    {
+        matchModel.pauseAI();
+        view.paused();
+    }
+
+    /**
+     * Handles the key presses while the game is in play.
+     * @param e the key pressed
+     */
+    @Override
+    public void keyReleased(KeyEvent e)
+    {
+        int keyCode = e.getKeyCode();
+
+        if (keyCode == KeyEvent.VK_ESCAPE)
+        {
+            pause();
+        }
+        else if (settingsModel.getMode() == GameMode.TUTORIAL &&
+                (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT))
+        {
+            view.setNextTutorialPage(keyCode);
+        }
+        else
+        {
+            if (bindKey)
+            {
+                if(KeyMapper.changeBinding(keyCode, move))
+                {
+                    view.updateControlsScreen();
+                    bindKey = false;
+                }
+            }
+            else
+            {
+                Move moveToMake = matchModel.getMove(keyCode);
+                applyMove(moveToMake);
+            }
+        }
+    }
+
+    private void applyMove(Move moveToMake)
+    {
+        if(moveToMake != null)
+        {
+            if (moveToMake.isDraw())
+            {
+                matchModel.drawCard(moveToMake.getSource());
+            }
+            /*if PASS_COLUMN is returned, the move is a pass*/
+            else if (moveToMake.getColumn() == KeyMapper.PASS_COLUMN)
+            {
+                matchModel.pass(moveToMake.getSource());
+            }
+            else
+            {
+                matchModel.playDiscard(moveToMake.getSource(),
+                    moveToMake.getSide(), moveToMake.getColumn());
+            }
+        }
+        else
+        {
+            view.blinkInvalid();
+        }
+    }
+    
+    /**
+     * Perform the appropriate action based on the type of input received.
+     *
+     * @param e ActionEvent corresponding to the action that was confirmed.
+     * @pre Input must be received from a Player (Human or AI).
+     * @post The appropriate change to the game state has been made by calling
+     * methods in the GameModel.
+     */
+    public void actionPerformed(ActionEvent e)
+    {
+        final int easy = 2000;
+        final int medium = 1000;
+        final int hard = 500;
+        final String regexMove = "^[pP][12][pP][12][cC]-{0,1}[012]$";
+
+        String actionCommand = e.getActionCommand();
+
+        /* cases for button clicks */
+        if (actionCommand.equals("Proceed"))
+        {
+            view.displayMainMenuScreen();
+        }
+        else if (actionCommand.equals("Training"))
+        {
+            settingsModel.setMode(GameMode.TRAINING);
+            view.displayDeckSelectionP1(); //set turnbased
+        }
+        else if (actionCommand.equals("Tournament"))
+        {
+            settingsModel.setMode(GameMode.TOURNAMENT);
+            view.displayDeckSelectionP1();
+        }
+        else if (actionCommand.equals("Tutorial"))
+        {
+            settingsModel.setMode(GameMode.TUTORIAL);
+            view.displayTutorialScreen();
+        }
+        else if (actionCommand.equals("Options"))
+        {
+            view.displayOptionsScreen();
+        }
+        else if (actionCommand.equals("About"))
+        {
+            view.displayAboutScreen();
+        }
+
+        else if (actionCommand.equals("Unpause"))
+        {
+            matchModel.resetTimers(1);
+        }
+        else if (actionCommand.equals("Default"))
+        {
+            //KeyMapper.resetBindings();
+            view.updateControlsScreen();
+        }
+
+        else if (actionCommand.equals("Back to Player 1"))
+        {
+            settingsModel.changeCurrentPlayerId();
+            view.displayDeckSelectionP1();
+        }
+        else if (actionCommand.equals("Ready P2"))
+        {
+            settingsModel.setPlayer();
+            settingsModel.changeCurrentPlayerId();
+            matchModel = settingsModel.startGame();
+            view.setMatchModel(matchModel);
+            matchModel.addObserver(view);
+            view.displayCountdownScreen();
+        }
+        else if ((actionCommand.equals("Quit"))
+                || (actionCommand.equals("quitPAS")))
+        {
+            view.displayQuitScreen();
+        }
+        else if (actionCommand.equals("Yes"))
+        {
+            System.exit(0);
+        }
+        else if ((actionCommand.equals("No")) ||
+                 (actionCommand.equals("Main Menu")) ||
+                 (actionCommand.equals("mainMenuPAS")))
+        {
+            view.displayMainMenuScreen();
+        }
+        else if (actionCommand.equals("Save Bindings"))
+        {
+            KeyMapper.writeBindings();
+            view.displayMainMenuScreen();
+        }
+        else if (actionCommand.equals("Reset Bindings"))
+        {
+            KeyMapper.resetBindings();
+            view.updateControlsScreen();
+        }
+        else if (actionCommand.equals("Ready P1"))
+        {
+            settingsModel.setPlayer();
+            settingsModel.changeCurrentPlayerId();
+            view.displayDeckSelectionP2();
+
+        }
+        /* cases for deck and player selection */
+        else if(actionCommand.equals("humphrey1"))
+        {
+            settingsModel.setCharacter(
+                    brawl.model.enums.BrawlCharacter.HUMPHREY);
+            view.updateDeckInfo(settingsModel.getCurrentPlayerId(),
+                    BrawlCharacter.HUMPHREY);
+        }
+        else if (actionCommand.equals("beatrice1"))
+        {
+            settingsModel.setCharacter(
+                    brawl.model.enums.BrawlCharacter.BEATRICE);
+            view.updateDeckInfo(settingsModel.getCurrentPlayerId(),
+                    BrawlCharacter.BEATRICE);
+        }
+        else if (actionCommand.equals("milton1"))
+        {
+            settingsModel.setCharacter(brawl.model.enums.BrawlCharacter.MILTON);
+            view.updateDeckInfo(settingsModel.getCurrentPlayerId(),
+                    BrawlCharacter.MILTON);
+        }
+        else if (actionCommand.equals("wilbur1"))
+        {
+            settingsModel.setCharacter(brawl.model.enums.BrawlCharacter.WILBUR);
+            view.updateDeckInfo(settingsModel.getCurrentPlayerId(),
+                    BrawlCharacter.WILBUR);
+        }
+        else if (actionCommand.equals("gertrude1"))
+        {
+            settingsModel.setCharacter(
+                    brawl.model.enums.BrawlCharacter.GERTRUDE);
+            view.updateDeckInfo(settingsModel.getCurrentPlayerId(),
+                    BrawlCharacter.GERTRUDE);
+        }
+        else if (actionCommand.equals("esther1"))
+        {
+            settingsModel.setCharacter(brawl.model.enums.BrawlCharacter.ESTHER);
+            view.updateDeckInfo(settingsModel.getCurrentPlayerId(),
+                    BrawlCharacter.ESTHER);
+        }
+        else if (actionCommand.equals("computer easy"))
+        {
+            settingsModel.setIsHuman(false);
+            settingsModel.setDifficulty(easy);
+        }
+        else if (actionCommand.equals("computer medium"))
+        {
+            settingsModel.setIsHuman(false);
+            settingsModel.setDifficulty(medium);
+        }
+        else if (actionCommand.equals("computer hard"))
+        {
+            settingsModel.setIsHuman(false);
+            settingsModel.setDifficulty(hard);
+        }
+        else if (actionCommand.equals("human1"))
+        {
+            settingsModel.setIsHuman(true);
+        }
+        else if (actionCommand.equals("playAgainPAS"))
+        {
+            view.displayDeckSelectionP1();
+        }
+        else if (actionCommand.equals("sysTestMode"))
+        {
+            //player 1 settings
+            settingsModel.setIsHuman(true);
+            settingsModel.setCharacter(BrawlCharacter.HUMPHREY);
+            settingsModel.setPlayer();
+
+            settingsModel.changeCurrentPlayerId();
+
+            //player 2 settings
+            settingsModel.setIsHuman(true);
+            settingsModel.setCharacter(BrawlCharacter.MILTON);
+            settingsModel.setPlayer();
+
+            settingsModel.setMode(GameMode.TOURNAMENT);
+
+            //create matchModel
+            matchModel = settingsModel.startGame();
+            view.setMatchModel(matchModel);
+            matchModel.addObserver(view);
+            view.sysTestSetup();
+
+        }
+            // Set a move's key binding :
+            // SET bindKey to true
+            // SET move to an appropriate move object
+        //the actionCommand is a key binding to a move
+        else if ( actionCommand.matches(regexMove) )
+        {
+            bindKey = true;
+            this.move = Move.parseMove(actionCommand);
+        }
+    }
+}

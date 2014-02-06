@@ -1,0 +1,9 @@
+K 10
+svn:ignore
+V 68
+.test3.1.in.orig
+.test3.2.in.orig
+.test3.3.in.orig
+.test3.4.in.orig
+
+END

@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/FBRD/!svn/ver/431/trunk/Brawl/test/testsuites
+END
+UnitTestSuite.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/FBRD/!svn/ver/431/trunk/Brawl/test/testsuites/UnitTestSuite.java
+END
+IntegrationTestSuite.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/FBRD/!svn/ver/431/trunk/Brawl/test/testsuites/IntegrationTestSuite.java
+END

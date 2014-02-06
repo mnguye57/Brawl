@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/FBRD/!svn/ver/425/trunk/Brawl/src/brawl/model
+END
+Deck.java
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/FBRD/!svn/ver/274/trunk/Brawl/src/brawl/model/Deck.java
+END
+Move.java
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/FBRD/!svn/ver/425/trunk/Brawl/src/brawl/model/Move.java
+END
+Human.java
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/FBRD/!svn/ver/394/trunk/Brawl/src/brawl/model/Human.java
+END
+AI.java
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/FBRD/!svn/ver/425/trunk/Brawl/src/brawl/model/AI.java
+END
+Card.java
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/FBRD/!svn/ver/418/trunk/Brawl/src/brawl/model/Card.java
+END
+Base.java
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/FBRD/!svn/ver/98/trunk/Brawl/src/brawl/model/Base.java
+END
+Player.java
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/FBRD/!svn/ver/398/trunk/Brawl/src/brawl/model/Player.java
+END
+Column.java
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/FBRD/!svn/ver/425/trunk/Brawl/src/brawl/model/Column.java
+END

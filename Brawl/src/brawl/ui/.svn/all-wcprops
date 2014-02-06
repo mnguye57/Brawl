@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/FBRD/!svn/ver/437/trunk/Brawl/src/brawl/ui
+END
+ConsoleUI.java
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/FBRD/!svn/ver/435/trunk/Brawl/src/brawl/ui/ConsoleUI.java
+END
+TutorialScreen.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/FBRD/!svn/ver/403/trunk/Brawl/src/brawl/ui/TutorialScreen.java
+END
+GameView.java
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/FBRD/!svn/ver/435/trunk/Brawl/src/brawl/ui/GameView.java
+END
+PlayScreen.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/FBRD/!svn/ver/437/trunk/Brawl/src/brawl/ui/PlayScreen.java
+END
+PlayAgainScreen.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/FBRD/!svn/ver/403/trunk/Brawl/src/brawl/ui/PlayAgainScreen.java
+END
+brawlScreen.jpg
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/FBRD/!svn/ver/101/trunk/Brawl/src/brawl/ui/brawlScreen.jpg
+END
+MainMenuScreen.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/FBRD/!svn/ver/403/trunk/Brawl/src/brawl/ui/MainMenuScreen.java
+END
+AboutScreen.java
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/FBRD/!svn/ver/403/trunk/Brawl/src/brawl/ui/AboutScreen.java
+END
+TrainingScreen.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/FBRD/!svn/ver/403/trunk/Brawl/src/brawl/ui/TrainingScreen.java
+END
+GameplayOptionsScreen.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/FBRD/!svn/ver/403/trunk/Brawl/src/brawl/ui/GameplayOptionsScreen.java
+END
+ControlScreen.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/FBRD/!svn/ver/403/trunk/Brawl/src/brawl/ui/ControlScreen.java
+END
+QuitScreen.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/FBRD/!svn/ver/430/trunk/Brawl/src/brawl/ui/QuitScreen.java
+END
+SwingUI.java
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/FBRD/!svn/ver/437/trunk/Brawl/src/brawl/ui/SwingUI.java
+END
+DeckSetUpScreen.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/FBRD/!svn/ver/413/trunk/Brawl/src/brawl/ui/DeckSetUpScreen.java
+END
+OptionsScreen.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/FBRD/!svn/ver/403/trunk/Brawl/src/brawl/ui/OptionsScreen.java
+END
+IntroScreen.java
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/FBRD/!svn/ver/403/trunk/Brawl/src/brawl/ui/IntroScreen.java
+END

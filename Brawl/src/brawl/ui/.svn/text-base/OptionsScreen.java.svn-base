@@ -1,0 +1,48 @@
+package brawl.ui;
+
+import brawl.GameController;
+import java.awt.Font;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+/**
+ * An OptionsScreen represents the screen where the user can control the
+ * options of the Brawl game.
+ *
+ * @author Minh Nguyen
+ */
+public class OptionsScreen extends JPanel
+{
+    private final static int FONT_20 = 20;
+    /**
+     * Constructs the OptionsScreen.
+     * @param ctrl the controller of the OptionsScreen
+     */
+    public OptionsScreen(GameController ctrl)
+    {
+        JPanel overallPanel = new JPanel();
+        overallPanel.setLayout(new BoxLayout(overallPanel, BoxLayout.Y_AXIS));
+
+        JButton controlButton = new JButton("Controls");
+        controlButton.setFont(new Font("Helvetica", Font.PLAIN, FONT_20));
+        controlButton.setAlignmentX(CENTER_ALIGNMENT);
+        JButton gameplayButton = new JButton("Gameplay");
+        gameplayButton.setFont(new Font("Helvetica", Font.PLAIN, FONT_20));
+        gameplayButton.setActionCommand("Gameplay Options");
+        gameplayButton.setAlignmentX(CENTER_ALIGNMENT);
+        JButton mainMenuButton = new JButton("Main Menu");
+        mainMenuButton.setFont(new Font("Helvetica", Font.PLAIN, FONT_20));
+        mainMenuButton.setAlignmentX(CENTER_ALIGNMENT);
+
+        controlButton.addActionListener(ctrl);
+        gameplayButton.addActionListener(ctrl);
+        mainMenuButton.addActionListener(ctrl);
+
+        overallPanel.add(controlButton);
+        overallPanel.add(gameplayButton);
+        overallPanel.add(mainMenuButton);
+
+        add(overallPanel);
+    }
+}
